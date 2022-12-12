@@ -10,7 +10,7 @@
         android:id="@+id/text_time_first_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/landscape_margin"
         android:text="@string/time_text"
         android:textColor="@color/black"
         android:textSize="@dimen/timer_text_size"
@@ -22,7 +22,7 @@
         android:id="@+id/button_start_first_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/landscape_margin"
         android:text="@string/start_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_time_first_stopwatch" />
@@ -40,7 +40,7 @@
         android:id="@+id/button_stop_first_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/landscape_margin"
         android:text="@string/stop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_start_first_stopwatch" />
@@ -53,14 +53,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_pause_first_stopwatch"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/landscape_margin"
         />
 
     <TextView
         android:id="@+id/text_time_second_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/landscape_margin"
         android:text="@string/time_text"
         android:textColor="@color/black"
         android:textSize="@dimen/timer_text_size"
@@ -72,7 +72,7 @@
         android:id="@+id/button_start_second_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/landscape_margin"
         android:text="@string/start_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_time_second_stopwatch" />
@@ -90,7 +90,7 @@
         android:id="@+id/button_stop_second_stopwatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/landscape_margin"
         android:text="@string/stop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_start_second_stopwatch" />

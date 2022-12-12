@@ -1,58 +1,67 @@
 package com.example.secundomer.view
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.secundomer.*
-import com.example.secundomer.model.time.*
-import com.example.secundomer.viewmodel.StopwatchListOrchestrator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.secundomer.databinding.ActivityMainBinding
+import com.example.secundomer.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private val timestampProvider = object : TimestampProvider {
-        override fun getMilliseconds(): Long {
-            return System.currentTimeMillis()
-        }
+    private lateinit var binding: ActivityMainBinding
+    /** Ленивая инициализация viewmodel с использованием ViewModelProvider и фабрики, для того чтобы наша вьюмодель жила пока наша активити не закроется окончательно */
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
     }
-    private val stopwatchListOrchestrator = StopwatchListOrchestrator(
-        StopwatchStateHolder(
-            StopwatchStateCalculator(
-                timestampProvider,
-                ElapsedTimeCalculator(timestampProvider)
-            ),
-            ElapsedTimeCalculator(timestampProvider),
-            TimestampMillisecondsFormatter()
-        ),
-        CoroutineScope(Dispatchers.Main + SupervisorJob())
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val textView = findViewById<TextView>(R.id.text_time)
-        CoroutineScope(Dispatchers.Main + SupervisorJob()).launch {
-            stopwatchListOrchestrator.ticker.collect {
-                textView.text = it
+        setButtonsOnClickListeners()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tickerFirst.collect {
+                    binding.textTimeFirstStopwatch.text = it
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tickerSecond.collect {
+                    binding.textTimeSecondStopwatch.text = it
+                }
             }
         }
 
-        findViewById<Button>(R.id.button_start).setOnClickListener {
-            stopwatchListOrchestrator.start()
-        }
+    }
 
-        findViewById<Button>(R.id.button_pause).setOnClickListener {
-            stopwatchListOrchestrator.pause()
-        }
-
-        findViewById<Button>(R.id.button_stop).setOnClickListener {
-            stopwatchListOrchestrator.stop()
+    private fun setButtonsOnClickListeners() {
+        with(binding) {
+            buttonStartFirstStopwatch.setOnClickListener {
+                viewModel.onStartClickedFirst()
+            }
+            buttonPauseFirstStopwatch.setOnClickListener {
+                viewModel.onPauseClickedFirst()
+            }
+            buttonStopFirstStopwatch.setOnClickListener {
+                viewModel.onStopClickedFirst()
+            }
+            buttonStartSecondStopwatch.setOnClickListener {
+                viewModel.onStartClickedSecond()
+            }
+            buttonPauseSecondStopwatch.setOnClickListener {
+                viewModel.onPauseClickedSecond()
+            }
+            buttonStopSecondStopwatch.setOnClickListener {
+                viewModel.onStopClickedSecond()
+            }
         }
     }
 }
